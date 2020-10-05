@@ -2,7 +2,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 Future loginUser(String email, String password) async {
-  String url = 'http://10.237.118.29/latihan/login.php';
+  String url = 'http://192.168.72.144/latihan/login.php';
   // try {
   final response = await http.post(url,
       headers: {"Accept": "Application/json"},
