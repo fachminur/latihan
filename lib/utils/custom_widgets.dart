@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hello/page/beranda2.dart';
+import 'package:hello/page/list.dart';
 import 'package:hello/page/more.dart';
 import 'package:hello/page/post.dart';
 import 'package:hello/utils/constants.dart';
@@ -65,7 +66,8 @@ class MenuLink extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return Beranda2();
+          // return Beranda2();
+          return UserList();
         }));
         // Navigator.pushNamed(context, '/more');
       },

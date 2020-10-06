@@ -1,4 +1,4 @@
-#Fri Oct 02 14:30:21 ICT 2020
-base.0=D\:\\flutter_work\\hello\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\out\\classes.dex
+#Tue Oct 06 10:17:39 ICT 2020
+base.0=D\:\\flutter_work\\latihan\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\out\\classes.dex
 path.0=classes.dex
 renamed.0=classes.dex

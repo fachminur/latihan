@@ -1,17 +1,22 @@
+import 'dart:io';
+
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+final String _baseUrl = "http://10.237.80.50/api/public/";
+
 Future loginUser(String email, String password) async {
-  String url = 'http://192.168.72.144/latihan/login.php';
-  // try {
-  final response = await http.post(url,
-      headers: {"Accept": "Application/json"},
-      body: {'email': email, 'password': password});
-  var convertedDatatoJson = jsonDecode(response.body);
-  return convertedDatatoJson;
-  // } catch (error) {
-  //   throw error;
-  // }
+  String url = 'api/login';
+  try {
+    final response = await http.post(_baseUrl + url,
+        headers: {"Accept": "Application/json"},
+        body: {'username': email, 'password': password});
+    var convertedDatatoJson = jsonDecode(response.body);
+    return convertedDatatoJson;
+  } catch (e) {
+    print(e);
+    return null;
+  }
 }
 
 //DEFINE VARIABLE url UNTUK MENAMPUNG END POINT
