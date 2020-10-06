@@ -4,6 +4,7 @@ import 'package:hello/api/api.dart';
 import 'package:hello/utils/constants.dart';
 import 'package:hello/utils/custom_widgets.dart';
 import 'package:hello/page/home.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -13,14 +14,14 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final _formkey = GlobalKey<FormState>();
   final _scaffoldkey = GlobalKey<ScaffoldState>();
-  final emailController = TextEditingController();
+  final usernameController = TextEditingController();
   final passwordController = TextEditingController();
 
   String message = '';
 
   @override
   void dispose() {
-    emailController.dispose();
+    usernameController.dispose();
     passwordController.dispose();
     super.dispose();
   }
@@ -73,15 +74,15 @@ class _LoginState extends State<Login> {
                           children: [
                             TextFormField(
                               decoration: InputDecoration(
-                                labelText: 'Email',
+                                labelText: 'Username',
                                 labelStyle: TextStyle(fontSize: 16),
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(32.0)),
+                                // border: OutlineInputBorder(
+                                //     borderRadius: BorderRadius.circular(32.0)),
                               ),
-                              controller: emailController,
+                              controller: usernameController,
                               validator: (value) {
                                 if (value.isEmpty) {
-                                  return 'Email cant be empty';
+                                  return 'Username cant be empty';
                                 }
                                 return null;
                               },
@@ -94,8 +95,8 @@ class _LoginState extends State<Login> {
                               decoration: InputDecoration(
                                 labelText: 'Password',
                                 labelStyle: TextStyle(fontSize: 16),
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(32.0)),
+                                // border: OutlineInputBorder(
+                                //     borderRadius: BorderRadius.circular(32.0)),
                               ),
                               controller: passwordController,
                               validator: (value) {
@@ -125,30 +126,48 @@ class _LoginState extends State<Login> {
                               btnText: 'Login',
                               onBtnPressed: () async {
                                 if (_formkey.currentState.validate()) {
-                                  var email = emailController.text;
+                                  var username = usernameController.text;
                                   var password = passwordController.text;
                                   setState(() {
                                     message = 'Please wait...';
                                   });
-                                  var rsp = await loginUser(email, password);
+                                  var rsp = await loginUser(username, password);
+                                  SharedPreferences sharedPreferences =
+                                      await SharedPreferences.getInstance();
                                   print(rsp);
-                                  if (rsp.containsKey('status')) {
-                                    setState(() {
-                                      message = rsp['status_text'];
-                                    });
-                                    if (rsp['status'] == 1) {
-                                      // Navigator.push(context,
-                                      //     MaterialPageRoute(builder: (context) {
-                                      //   return HomePage();
-                                      // }));
-                                      // Navigator.pushReplacement(
-                                      //     context,
-                                      //     new MaterialPageRoute(
-                                      //         builder: (BuildContext context) =>
-                                      //             HomePage()));
-                                      Navigator.pushReplacementNamed(
-                                          context, '/beranda');
-                                    }
+                                  if (rsp.containsKey('access_token')) {
+                                    // setState(() {
+                                    //   message = rsp['status_text'];
+                                    // });
+                                    // if (rsp['status'] == 1) {
+                                    var iduser = rsp['user']['id'];
+                                    var userrsp = rsp['user'];
+                                    sharedPreferences.setString(
+                                        'token', rsp['access_token']);
+                                    sharedPreferences.setInt('id', iduser);
+                                    // sharedPreferences.setString('users', userrsp);
+                                    var token =
+                                        sharedPreferences.getString("token");
+                                    var idusershared =
+                                        sharedPreferences.getInt('id');
+                                    // var usershared =
+                                    //     sharedPreferences.getString('users');
+                                    print(token);
+                                    print(idusershared);
+                                    // print(usershared);
+                                    print(rsp['user']['email']);
+                                    // Navigator.push(context,
+                                    //     MaterialPageRoute(builder: (context) {
+                                    //   return HomePage();
+                                    // }));
+                                    // Navigator.pushReplacement(
+                                    //     context,
+                                    //     new MaterialPageRoute(
+                                    //         builder: (BuildContext context) =>
+                                    //             HomePage()));
+                                    Navigator.pushReplacementNamed(
+                                        context, '/beranda');
+                                    // }
                                   } else {
                                     setState(() {
                                       message = 'Login Failed';
