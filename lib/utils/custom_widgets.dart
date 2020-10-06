@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hello/page/beranda2.dart';
-import 'package:hello/page/list.dart';
 import 'package:hello/page/more.dart';
 import 'package:hello/page/post.dart';
 import 'package:hello/utils/constants.dart';
@@ -11,7 +10,7 @@ class HeroImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        child: Image.asset('assets/flutter.png'),
+        child: Image.asset('assets/logo-bpkp.png'),
         width: MediaQuery.of(context).size.width,
         height: imgHeight);
   }
@@ -24,6 +23,8 @@ class CustomButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
+      shape:
+          new RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
       child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Row(
@@ -47,7 +48,8 @@ class CustomButton extends StatelessWidget {
         ),
       ),
       onPressed: onBtnPressed,
-      color: Theme.of(context).primaryColor,
+      // color: Theme.of(context).primaryColor,
+      color: Color(0xFF0033FF),
     );
   }
 }
@@ -66,42 +68,52 @@ class MenuLink extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Navigator.push(context, MaterialPageRoute(builder: (context) {
-          // return Beranda2();
-          return UserList();
+          return Beranda2();
         }));
         // Navigator.pushNamed(context, '/more');
       },
       child: Container(
         padding: EdgeInsets.fromLTRB(0, 20.0, 10.0, 10.0),
-        child: Column(
-          // crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Container(
-              alignment: Alignment.topCenter,
-              width: 80.0,
-              height: 70.0,
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: kBackgroundColor,
-                  image: DecorationImage(
-                      image: AssetImage(image),
-                      fit: BoxFit.scaleDown,
-                      scale: 5)),
-            ),
-            SizedBox(
-              height: kDefaultPadding / 4,
-            ),
-            Container(
-              width: 60.0,
-              child: Text(
-                title,
-                textAlign: TextAlign.center,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
-                softWrap: true,
+        // decoration: BoxDecoration(
+        //   borderRadius: BorderRadius.circular(15),
+        //   color: Colors.white30,
+        //   boxShadow: [
+        //     BoxShadow(
+        //       offset: Offset(0, 10),
+        //       blurRadius: 20,
+        //       color: Color(0xFF4056C6).withOpacity(.15),
+        //     )
+        //   ],
+        // ),
+        child: Container(
+          height: 120.0,
+          child: Column(
+            children: [
+              Container(
+                width: 80.0,
+                height: 70.0,
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: kBackgroundColor,
+                    image: DecorationImage(
+                        image: AssetImage(image),
+                        fit: BoxFit.scaleDown,
+                        scale: 5)),
               ),
-            ),
-          ],
+              SizedBox(
+                height: kDefaultPadding / 4,
+              ),
+              Container(
+                width: 60.0,
+                child: Text(
+                  title,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontWeight: FontWeight.normal, fontSize: 14),
+                  softWrap: true,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

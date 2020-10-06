@@ -38,6 +38,12 @@
       "languageVersion": "2.3"
     },
     {
+      "name": "colorful_safe_area",
+      "rootUri": "file:///D:/flutter/.pub-cache/hosted/pub.dartlang.org/colorful_safe_area-0.2.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.1"
+    },
+    {
       "name": "cupertino_icons",
       "rootUri": "file:///D:/flutter/.pub-cache/hosted/pub.dartlang.org/cupertino_icons-0.1.3",
       "packageUri": "lib/",
@@ -272,7 +278,7 @@
       "languageVersion": "2.7"
     }
   ],
-  "generated": "2020-10-05T07:12:18.168286Z",
+  "generated": "2020-10-06T04:47:41.561361Z",
   "generator": "pub",
   "generatorVersion": "2.9.2"
 }
