@@ -17,6 +17,8 @@ class _LoginState extends State<Login> {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
 
+  bool _isLoading = false;
+
   String message = '';
 
   @override
@@ -40,7 +42,7 @@ class _LoginState extends State<Login> {
             // HeroImage(
             //   imgHeight: MediaQuery.of(context).size.height * 0.15,
             // ),
-            new Stack(
+            Stack(
               alignment: Alignment.bottomCenter,
               children: <Widget>[
                 WavyHeader(),
@@ -122,14 +124,47 @@ class _LoginState extends State<Login> {
                                     ))
                               ],
                             ),
-                            CustomButton(
-                              btnText: 'Login',
-                              onBtnPressed: () async {
+                            MaterialButton(
+                              shape: new RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30.0)),
+                              child: Padding(
+                                padding: const EdgeInsets.all(20.0),
+                                child: _isLoading
+                                    ? Center(
+                                        child: CircularProgressIndicator(
+                                        backgroundColor: Colors.white,
+                                        valueColor:
+                                            new AlwaysStoppedAnimation<Color>(
+                                                Colors.blue),
+                                      ))
+                                    : Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            'Login',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20.0,
+                                                color: Colors.white),
+                                          ),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          Icon(
+                                            Icons.arrow_forward,
+                                            color: Colors.white,
+                                          )
+                                        ],
+                                      ),
+                              ),
+                              onPressed: () async {
                                 if (_formkey.currentState.validate()) {
                                   var username = usernameController.text;
                                   var password = passwordController.text;
                                   setState(() {
                                     message = 'Please wait...';
+                                    _isLoading = true;
                                   });
                                   var rsp = await loginUser(username, password);
                                   SharedPreferences sharedPreferences =
@@ -156,6 +191,10 @@ class _LoginState extends State<Login> {
                                     print(idusershared);
                                     // print(usershared);
                                     print(rsp['user']['email']);
+                                    setState(() {
+                                      _isLoading = false;
+                                      message = '';
+                                    });
                                     // Navigator.push(context,
                                     //     MaterialPageRoute(builder: (context) {
                                     //   return HomePage();
@@ -167,19 +206,91 @@ class _LoginState extends State<Login> {
                                     //             HomePage()));
                                     Navigator.pushReplacementNamed(
                                         context, '/beranda');
-                                    // }
                                   } else {
+                                    final snackBarFailed = SnackBar(
+                                      content: Text('Login Failed'),
+                                      backgroundColor: Colors.red,
+                                    );
                                     setState(() {
-                                      message = 'Login Failed';
+                                      message = '';
+                                      _isLoading = false;
+                                      Scaffold.of(context)
+                                          .showSnackBar(snackBarFailed);
                                     });
                                   }
+                                } else {
+                                  setState(() {
+                                    message = 'Login Failed';
+                                    _isLoading = false;
+                                  });
                                 }
                               },
+                              // color: Theme.of(context).primaryColor,
+                              color: Color(0xFF0033FF),
                             ),
+                            // CustomButton(
+                            //   btnText: 'Login',
+                            //   onBtnPressed: () async {
+                            //     if (_formkey.currentState.validate()) {
+                            //       var username = usernameController.text;
+                            //       var password = passwordController.text;
+                            //       setState(() {
+                            //         message = 'Please wait...';
+                            //         _isLoading = true;
+                            //       });
+                            //       var rsp = await loginUser(username, password);
+                            //       SharedPreferences sharedPreferences =
+                            //           await SharedPreferences.getInstance();
+                            //       print(rsp);
+                            //       if (rsp.containsKey('access_token')) {
+                            //         // setState(() {
+                            //         //   message = rsp['status_text'];
+                            //         // });
+                            //         // if (rsp['status'] == 1) {
+                            //         var iduser = rsp['user']['id'];
+                            //         var userrsp = rsp['user'];
+                            //         sharedPreferences.setString(
+                            //             'token', rsp['access_token']);
+                            //         sharedPreferences.setInt('id', iduser);
+                            //         // sharedPreferences.setString('users', userrsp);
+                            //         var token =
+                            //             sharedPreferences.getString("token");
+                            //         var idusershared =
+                            //             sharedPreferences.getInt('id');
+                            //         // var usershared =
+                            //         //     sharedPreferences.getString('users');
+                            //         print(token);
+                            //         print(idusershared);
+                            //         // print(usershared);
+                            //         print(rsp['user']['email']);
+                            //         setState(() {
+                            //           _isLoading = false;
+                            //           message = '';
+                            //         });
+                            //         // Navigator.push(context,
+                            //         //     MaterialPageRoute(builder: (context) {
+                            //         //   return HomePage();
+                            //         // }));
+                            //         // Navigator.pushReplacement(
+                            //         //     context,
+                            //         //     new MaterialPageRoute(
+                            //         //         builder: (BuildContext context) =>
+                            //         //             HomePage()));
+                            //         Navigator.pushReplacementNamed(
+                            //             context, '/beranda');
+                            //       }
+                            //     } else {
+                            //       setState(() {
+                            //         message = 'Login Failed';
+                            //         _isLoading = false;
+                            //       });
+                            //     }
+                            //   },
+                            // ),
                             SizedBox(
                               height: 10,
                             ),
-                            Text(message)
+                            Text(message),
                           ],
                         )),
                   )
