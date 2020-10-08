@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hello/utils/custom_widgets.dart';
+import 'package:http/http.dart' as http;
+import 'dart:async';
+import 'dart:convert';
 
 class ShowMore extends StatefulWidget {
   @override
@@ -8,6 +11,24 @@ class ShowMore extends StatefulWidget {
 
 class _ShowMoreState extends State<ShowMore> {
   @override
+  List data;
+
+  Future<String> getData() async {
+    http.Response response = await http.get(
+        Uri.encodeFull("https://jsonplaceholder.typicode.com/posts"),
+        headers: {"Accept": "application/json"});
+    setState(() {
+      data = jsonDecode(response.body);
+    });
+    print(jsonDecode(response.body));
+    return "Success!";
+  }
+
+  @override
+  void initState() {
+    this.getData();
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xff263c92),

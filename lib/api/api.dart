@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-final String _baseUrl = "http://10.237.70.230/api/public/";
+final String _baseUrl = "http://10.236.221.76/api/public/";
 
 Future loginUser(String email, String password) async {
   String url = 'api/login';

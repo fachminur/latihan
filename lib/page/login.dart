@@ -56,7 +56,7 @@ class _LoginState extends State<Login> {
             Padding(
               padding: EdgeInsets.all(8.0),
               child: Text(
-                "BPKP's Mobile Sistem",
+                "SPIP Mobile",
                 style: TextStyle(
                     fontSize: 28.0,
                     color: Color(0xFF0033FF),
@@ -205,7 +205,7 @@ class _LoginState extends State<Login> {
                                     //         builder: (BuildContext context) =>
                                     //             HomePage()));
                                     Navigator.pushReplacementNamed(
-                                        context, '/beranda');
+                                        context, '/dashboard3');
                                   } else {
                                     final snackBarFailed = SnackBar(
                                       content: Text('Login Failed'),
@@ -303,12 +303,6 @@ class _LoginState extends State<Login> {
     );
   }
 }
-
-const List<Color> blueGradients = [
-  Color(0xFF0000FF),
-  Color(0xFF1F1FFF),
-  Color(0xFF4949FF),
-];
 
 class WavyHeader extends StatelessWidget {
   @override

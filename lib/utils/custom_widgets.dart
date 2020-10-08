@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hello/page/beranda2.dart';
+import 'package:hello/page/dashboard.dart';
 import 'package:hello/page/more.dart';
 import 'package:hello/page/post.dart';
 import 'package:hello/utils/constants.dart';
@@ -68,7 +69,8 @@ class MenuLink extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return Beranda2();
+          // return Beranda2();
+          return Dashboard();
         }));
         // Navigator.pushNamed(context, '/more');
       },
@@ -118,4 +120,46 @@ class MenuLink extends StatelessWidget {
       ),
     );
   }
+}
+
+Widget customCard(String img) {
+  return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+      margin: EdgeInsets.all(10.0),
+      child: Container(
+        decoration: BoxDecoration(
+            // color: Colors.purple[400],
+            borderRadius: BorderRadius.circular(10.0),
+            image: DecorationImage(
+                image: AssetImage('assets/$img.png'),
+                // colorFilter: ColorFilter.mode(
+                //     Colors.black.withOpacity(0.5), BlendMode.dstATop),
+                fit: BoxFit.contain)),
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              // Icon(
+              //   icon,
+              //   size: 30.0,
+              //   color: Colors.white,
+              // ),
+              //   Column(
+              //     children: [
+              //       Text(
+              //         title,
+              //         style: TextStyle(color: Colors.white),
+              //       ),
+              //       SizedBox(
+              //         height: kDefaultPadding / 4,
+              //       ),
+              //       Text(spots, style: TextStyle(color: Colors.white))
+              //     ],
+              //   )
+            ],
+          ),
+        ),
+      ));
 }

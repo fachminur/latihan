@@ -1,14 +1,24 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:hello/utils/constants.dart';
 import 'package:hello/utils/custom_widgets.dart';
+import 'package:http/http.dart' as http;
 
 class Beranda2 extends StatelessWidget {
+  final String apiUrl = "https://reqres.in/api/users?per_page=15";
+  Future<List<dynamic>> _fecthDataUsers() async {
+    var result = await http.get(apiUrl);
+    return jsonDecode(result.body)['data'];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kBackgroundColor,
       appBar: buildAppBar(context),
       body: Body(),
+      // body:
     );
   }
 
@@ -31,6 +41,12 @@ class Beranda2 extends StatelessWidget {
 }
 
 class Body extends StatelessWidget {
+  final String apiUrl = "https://reqres.in/api/users?per_page=15";
+  Future<List<dynamic>> _fecthDataUsers() async {
+    var result = await http.get(apiUrl);
+    return jsonDecode(result.body)['data'];
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -63,34 +79,69 @@ class Body extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                         fontSize: 18.0),
                   ),
-                  Wrap(
-                    children: <Widget>[
-                      MenuLink(
-                        image: 'assets/PSN.png',
-                        title: 'PSN',
-                      ),
-                      MenuLink(
-                        image: 'assets/Was-Covid.png',
-                        title: 'WAS-COVID 19',
-                      ),
-                      MenuLink(
-                        image: 'assets/UMKM.png',
-                        title: 'UMKM',
-                      ),
-                      MenuLink(
-                        image: 'assets/Bansos.png',
-                        title: 'DATA BANSOS',
-                      ),
-                      MenuLink(
-                        image: 'assets/KSP.png',
-                        title: 'KSP',
-                      ),
-                      MenuLink(
-                        image: 'assets/BPJS.png',
-                        title: 'BPJS',
-                      ),
-                    ],
-                  )
+                  // Container(
+                  // child: Wrap(
+                  //   children: <Widget>[
+                  //     MenuLink(
+                  //       image: 'assets/PSN.png',
+                  //       title: 'PSN',
+                  //     ),
+                  //     MenuLink(
+                  //       image: 'assets/Was-Covid.png',
+                  //       title: 'WAS-COVID 19',
+                  //     ),
+                  //     MenuLink(
+                  //       image: 'assets/UMKM.png',
+                  //       title: 'UMKM',
+                  //     ),
+                  //     MenuLink(
+                  //       image: 'assets/Bansos.png',
+                  //       title: 'DATA BANSOS',
+                  //     ),
+                  //     MenuLink(
+                  //       image: 'assets/KSP.png',
+                  //       title: 'KSP',
+                  //     ),
+                  //     MenuLink(
+                  //       image: 'assets/BPJS.png',
+                  //       title: 'BPJS',
+                  //     ),
+                  //   ],
+                  // ),
+                  Container(
+                    child: FutureBuilder<List<dynamic>>(
+                      future: _fecthDataUsers(),
+                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        if (snapshot.hasData) {
+                          return ListView.builder(
+                              padding: EdgeInsets.all(10),
+                              shrinkWrap: true,
+                              itemCount: snapshot.data.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                // return ListTile(
+                                //   leading: CircleAvatar(
+                                //     radius: 30,
+                                //     backgroundImage:
+                                //         NetworkImage(snapshot.data[index]['avatar']),
+                                //   ),
+                                // title: Text(snapshot.data[index]['first_name'] +
+                                //     " " +
+                                //     snapshot.data[index]['last_name']),
+                                // subtitle: Text(snapshot.data[index]['email']),
+                                // );
+                                return MenuLink(
+                                  image: 'assets/PSN.png',
+                                  title: snapshot.data[index]['first_name'],
+                                );
+                              });
+                          //
+                        } else {
+                          return Center(child: CircularProgressIndicator());
+                        }
+                      },
+                    ),
+                  ),
+                  // )
                 ],
               )
             ],
